@@ -1,0 +1,100 @@
+* {
+ 	margin: 0;
+ 	padding: 0;
+ }
+
+.wrapper-input {
+  text-align: center;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 20%;
+}
+
+ .good-board {
+   height: auto;
+   width: 170;
+ }
+
+ .bad-board {
+   height: auto;
+   width: auto;
+ }
+
+ .player-name-0, .player-name-1, .player-name-2, .player-name-3 {
+   width: 100px;
+   display: none;
+ }
+
+.player-color {
+  width: 100px;
+  display: none;
+}
+
+.btn-accept-player { display: none; }
+
+.btn-roll {
+  display: none;
+  transform: translateX(-81px);
+}
+
+.wrapper-dice {
+  text-align: center;
+  display: block;
+  position: absolute;
+  top: 30%;
+  right: 34%;
+}
+
+.dice {
+    position: absolute;
+    transform: translateX(-50%);
+    height: 100px;
+    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
+}
+
+.dice2 {
+  position: absolute;
+  left: 110px;
+  transform: translateX(-50%);
+  height: 100px;
+  box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
+}
+
+select {
+  color: #555;
+  font-size: 18px;
+  font-family: 'Lato';
+  padding: 3px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+input {
+  color: #555;
+  font-size: 18px;
+  font-family: 'Lato';
+  padding: 3px;
+  text-align: center;
+  width: 180px;
+  text-transform: uppercase;
+}
+
+button {
+    color: #555;
+    background: none;
+    border: solid;
+    font-family: Lato;
+    font-size: 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: 300;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover { font-weight: 600; }
+button:hover i { margin-right: 20px; }
+
+button:focus {
+    outline: none;
+}

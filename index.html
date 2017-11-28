@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Catan</title>
+		<link href="https://fonts.googleapis.com/css?family=Lato:100,300,600" rel="stylesheet" type="text/css">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="main.css">
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<script src="location.js" ></script>
+		<script src="board.js" ></script>
+		<script src="player.js" ></script>
+		<script src="game.js" ></script>
+		<script src="main.js" ></script>
+		<div class="wrapper-dice">
+			<img src="dice-5.png" alt="Dice" class="dice">
+			<img src="dice-5.png" alt="Dice" class="dice2">
+		</div>
+		<div class="wrapper-input">
+				<button class="good-board">Accept Board</button>
+				<button class="bad-board">New Board</button>
+				<input type="text" placeholder="Player 1" class="player-name-0">
+				<input type="text" placeholder="Player 2" class="player-name-1">
+				<input type="text" placeholder="Player 3" class="player-name-2">
+				<input type="text" placeholder="Player 4" class="player-name-3">
+				<select class="player-color">
+					<option value="blue">Blue</option>
+					<option value="red">Red</option>
+					<option value="green">Green</option>
+					<option value="yellow">Yellow</option>
+				</select>
+				<button class="btn-accept-player">Accept</button>
+				<button class="btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
+		</div>
+	</body>
+</html>
