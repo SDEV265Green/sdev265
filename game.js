@@ -25,19 +25,22 @@ class Game {
         var dice2 = Math.floor(Math.random() * 6) + 1;
 
         //change dice images to match rolls
-        var diceDOM = document.querySelector('.dice');
+        var diceDOM = document.querySelector('.dice1');
         diceDOM.src = 'dice-' + dice1 + '.png';
         var dice2DOM = document.querySelector('.dice2');
         dice2DOM.src = 'dice-' + dice2 + '.png';
 
         //sum dice rolls
-        return dice1 + dice2;
+        var roll = dice1 + dice2;
+        game.produceResources(roll);
+
     }
 
     // Method for next turn
     nextTurn() {
+        document.querySelector('.btn-roll').addEventListener('click', this.diceRoll);
         // Produce resources
-        this.produceResources();
+        //this.produceResources();
 
         // Tell the player what they have
         alert(this.players[this.turn].name + ", here is your hand:\n" +
@@ -65,9 +68,9 @@ class Game {
     }
 
     // Method for rolling and resource production
-    produceResources() {
+    produceResources(roll) {
         // Make a random roll
-        var roll = this.diceRoll();
+        //var roll = this.diceRoll();
         console.log(this.turn + " " + roll);
 
         // Let the user know the roll
@@ -203,17 +206,17 @@ class Game {
 
         while (willBuild == "y" || willBuild == "Y") {
             // Get what item they would like to build
-            var buildItem;
+            var buildItems;
             do {
-                buildItem = parseInt(prompt(this.players[this.turn].name + ", what would you like to build: (1-4)\n" +
+                buildItems = parseInt(prompt(this.players[this.turn].name + ", what would you like to build: (1-4)\n" +
                                        "\t 1) Road (1 lumber, 1 brick)\n" +
                                        "\t 2) Settlement (1 lumber, 1 brick, 1 grain, 1 wool)\n" +
                                        "\t 3) City (2 ore, 3 grain)\n" +
                                        "\t 4) Development Card (1 grain, 1 ore, 1 sheep)\n"));
-            } while (buildItem < 1 || buildItem > 4);
+            } while (buildItems < 1 || buildItems > 4);
 
             // Build the item
-            this.buildItem(buildItem, false);
+            this.buildItem(buildItems, false);
 
             // Ask if they would like to build again
             willBuild = prompt(this.players[this.turn].name + ", would you like to build again? (y/n)");

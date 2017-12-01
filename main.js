@@ -16,7 +16,7 @@ var w = window,
     pageHeight = w.innerHeight || e.clientHeight || g.clientHeight;
 
 // Get number of players
-var numPlayers = 4; /////////////////////////
+var numPlayers = 4;
 /*********************************************************************************
  * Commented out the following so that the prompts for the players don't come up *
  *********************************************************************************/
@@ -32,18 +32,41 @@ var players = [];
 var playerNames = [];
 var playerColors = [];
 
+var game;
 var playersInit = 0;
 
 //adds player name and color to arrays
 //once all players added the inputs are hidden and new buttons show up
 function getPlayers() {
+
+  //temp variables for shortening code
   var tempName = document.querySelector('.player-name-' + playersInit).value;
+
   var tempColor = document.querySelector('.player-color').value;
 
   if (tempName != '' && playersInit <= 3) {
+    //set player name and color
     playerNames[playersInit] = tempName;
     playerColors[playersInit] = tempColor;
-    document.querySelector('.player-color').style.display = 'none';
+
+
+    //create new player object
+    switch (playersInit) {
+      case 0:
+        players.push(new Player(playerNames[0], playerColors[0]));
+        break;
+      case 1:
+        players.push(new Player(playerNames[1], playerColors[1]));
+        break;
+      case 2:
+        players.push(new Player(playerNames[2], playerColors[2]));
+        break;
+      case 3:
+        players.push(new Player(playerNames[3], playerColors[3]));
+        break;
+    }
+
+    //hide previous player input, increment player, show new player input
     document.querySelector('.player-name-' + playersInit).style.display = 'none';
     playersInit += 1;
     var selectColorOption = document.querySelector('.player-color');
@@ -52,7 +75,6 @@ function getPlayers() {
         document.querySelector('.player-color').remove(i);
       }
     }
-    document.querySelector('.player-color').style.display = 'inline';
     if (playersInit <= 3) {
       document.querySelector('.player-name-' + playersInit).style.display = 'inline';
       document.querySelector('.player-name-' + playersInit).focus()
@@ -65,16 +87,32 @@ function getPlayers() {
     document.querySelector('.btn-accept-player').style.display = 'none';
     document.querySelector('.player-name-3').style.display = 'none';
     document.querySelector('.player-color').style.display = 'none';
-    document.querySelector('.btn-roll').style.display = 'inline';
-    buildInitalSetup();
-    main();
+
+    // Setup new game
+    game = new Game(players);
+
+    document.querySelector('.btn-roll').addEventListener('click', game.diceRoll);
+
+    getGoodBoard();
+
+    // Get an adequate board
+    //buildInitalSetup();
+
+    document.querySelector('.good-board').style.display = 'inline';
+    document.querySelector('.bad-board').style.display = 'inline';
+
   }
 }
 
-// Setup new game
-var game = new Game(players);
+/*
+if (playersInit == 4) {
+  // Setup new game
+  var game = new Game(players);
 
-// Get an adequate board
+  // Get an adequate board
+  buildInitalSetup();
+}
+*/
 
 var goodBoard, rendered = false, makingBoard = false;
 
@@ -93,28 +131,34 @@ function getGoodBoard () {
 
 //load at start, makes buttons work properly
 window.onload = function() {
+    //set focus
+    document.querySelector('.player-name-0').focus()
+
+    //Accept button for player creation
+    document.querySelector('.btn-accept-player').addEventListener('click', getPlayers);
+
     //Accept Board button selected
     document.querySelector('.good-board').addEventListener('click', function() {
       //hide accept board and new board buttons
       document.querySelector('.good-board').style.display = 'none';
       document.querySelector('.bad-board').style.display = 'none';
-      //show player name input, color selector, accept button, set focus
-      document.querySelector('.player-name-0').style.display = 'inline';
-      document.querySelector('.player-color').style.display = 'inline';
-      document.querySelector('.btn-accept-player').style.display = 'inline';
-      document.querySelector('.player-name-0').focus()
 
-      buildInitalSetup();
+      document.querySelector('.dice1').style.display = 'block';
+      document.querySelector('.dice2').style.display = 'block';
+      document.querySelector('.btn-roll').style.display = 'inline';
+
+      //buildInitalSetup();
     });
     document.querySelector('.bad-board').addEventListener('click', getGoodBoard);
-    document.querySelector('.btn-accept-player').addEventListener('click', getPlayers);
-    document.querySelector('.btn-roll').addEventListener('click', game.produceResources);
 }
 
+//****************************************
 // Get a good board
-getGoodBoard();
+//getGoodBoard();
+//****************************************
 
 function buildInitalSetup() {
+
     // Have players build their first two settlements and roads
     for (var i = 1; i <= numPlayers; i++) {
         game.buildItem(2, true);
@@ -126,13 +170,13 @@ function buildInitalSetup() {
     }
     game.board.render(game.players);
     setTimeout(main, 100);
+
+    //main();
 }
 
 function main() {
-    if (playersInit == numPlayers) {
-      // Run a game.nextTurn() cycle until the game is over
-      while (!game.over) {
-          game.nextTurn();
-      }
-    }
+    // Run a game.nextTurn() cycle until the game is over
+    while (!game.over) {
+        game.nextTurn();
+  }
 }

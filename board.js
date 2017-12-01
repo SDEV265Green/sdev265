@@ -17,7 +17,7 @@ class Board {
         // Get canvas info
         this.canvas = document.getElementById('canvas');
         this.canvas.width = 1500;
-        this.canvas.height = 750;
+        this.canvas.height = 900;
         this.ctx = this.canvas.getContext("2d");
 
         // Setup array for all tiles
