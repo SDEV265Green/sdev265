@@ -55,7 +55,7 @@ window.onload = function() {
       document.querySelector('.btn-roll').style.display = 'inline';
 
       //set up player locations
-      buildInitalSetup();
+      //buildInitalSetup();
     });
     document.querySelector('.bad-board').addEventListener('click', getGoodBoard);
 }

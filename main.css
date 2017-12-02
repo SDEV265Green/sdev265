@@ -1,52 +1,52 @@
-* {
+#canvas {
  	margin: 0;
  	padding: 0;
  }
 
 .wrapper {
-  height: 900px;
+  height: 750px;
   width: 1500px;
   position: static;
+  box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  background-color: #87CEFA;
 }
 
 .wrapper-init-input {
    text-align: center;
    display: block;
-   position: fixed;
-   top: 50%;
-   right: 575px;
+   position: static;
+   transform: translateY(200px);
  }
 
 .wrapper-input-dice {
   position: absolute;
   top: 300px;
-  right: 450px;
+  transform: translateX(1130px);
 }
 
 .wrapper-input {
-  position: fixed;
-  top: 305px;
-  right: 450px;
+  position: static;
 }
 
 .wrapper-dice {
   text-align: center;
   display: block;
   position: absolute;
+  transform: translateY(-110px);
+  right: 20px;
 }
 
  .good-board {
    height: auto;
    width: 170;
    display: none;
-   transform: translateX(300px);
  }
 
  .bad-board {
    height: auto;
    width: auto;
    display: none;
-   transform: translateX(300px);
  }
 
  .player-name-0 {
@@ -66,14 +66,15 @@
 
 .btn-accept-player { display: inline; }
 
+
 .end-turn {
   display: none;
-  transform: translateX(230px);
+  transform: translateX(95px);
 }
 
 .btn-roll {
   display: none;
-  transform: translateX(240px);
+  transform: translateX(95px);
 }
 
 .dice1 {
@@ -82,8 +83,6 @@
     height: 100px;
     box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
     display: none;
-    bottom: 20px;
-    left: 120px;
 }
 
 .dice2 {
@@ -92,8 +91,7 @@
   height: 100px;
   box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
   display: none;
-  bottom: 20px;
-  left: 230px;
+  left: 110px;
 }
 
 select {
@@ -128,7 +126,6 @@ button {
 }
 
 button:hover { font-weight: 600; }
-button:hover i { margin-right: 20px; }
 
 button:focus {
     outline: none;
