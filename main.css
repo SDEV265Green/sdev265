@@ -18,7 +18,7 @@
  }
 
 .wrapper-input-dice {
-  position: fixed;
+  position: absolute;
   top: 300px;
   right: 450px;
 }
@@ -39,12 +39,14 @@
    height: auto;
    width: 170;
    display: none;
+   transform: translateX(300px);
  }
 
  .bad-board {
    height: auto;
    width: auto;
    display: none;
+   transform: translateX(300px);
  }
 
  .player-name-0 {
@@ -64,9 +66,14 @@
 
 .btn-accept-player { display: inline; }
 
+.end-turn {
+  display: none;
+  transform: translateX(230px);
+}
+
 .btn-roll {
   display: none;
-  transform: translateX(-113px);
+  transform: translateX(240px);
 }
 
 .dice1 {

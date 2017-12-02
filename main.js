@@ -17,15 +17,6 @@ var w = window,
 
 // Get number of players
 var numPlayers = 4;
-/*********************************************************************************
- * Commented out the following so that the prompts for the players don't come up *
- *********************************************************************************/
-/*do {
-    numPlayers = prompt("Enter number of players (2-4): ");
-} while (2 > numPlayers || numPlayers > 4);*/
-/*****************************************************************
- *                Commented out stuff ends here                  *
- *****************************************************************/
 
 // Get player names and colors
 var players = [];
@@ -34,6 +25,50 @@ var playerColors = [];
 
 var game;
 var playersInit = 0;
+
+/*
+ #######  ##    ## ##        #######     ###    ########
+##     ## ###   ## ##       ##     ##   ## ##   ##     ##
+##     ## ####  ## ##       ##     ##  ##   ##  ##     ##
+##     ## ## ## ## ##       ##     ## ##     ## ##     ##
+##     ## ##  #### ##       ##     ## ######### ##     ##
+##     ## ##   ### ##       ##     ## ##     ## ##     ##
+ #######  ##    ## ########  #######  ##     ## ########
+*/
+
+//load at start, makes buttons work properly
+window.onload = function() {
+    //set focus
+    document.querySelector('.player-name-0').focus()
+
+    //Accept button for player creation
+    document.querySelector('.btn-accept-player').addEventListener('click', getPlayers);
+
+    //Accept Board button selected
+    document.querySelector('.good-board').addEventListener('click', function() {
+      //hide accept board and new board buttons
+      document.querySelector('.good-board').style.display = 'none';
+      document.querySelector('.bad-board').style.display = 'none';
+
+      document.querySelector('.dice1').style.display = 'block';
+      document.querySelector('.dice2').style.display = 'block';
+      document.querySelector('.btn-roll').style.display = 'inline';
+
+      //set up player locations
+      buildInitalSetup();
+    });
+    document.querySelector('.bad-board').addEventListener('click', getGoodBoard);
+}
+
+/*
+ ######   ######## ######## ########  ##          ###    ##    ## ######## ########   ######
+##    ##  ##          ##    ##     ## ##         ## ##    ##  ##  ##       ##     ## ##    ##
+##        ##          ##    ##     ## ##        ##   ##    ####   ##       ##     ## ##
+##   #### ######      ##    ########  ##       ##     ##    ##    ######   ########   ######
+##    ##  ##          ##    ##        ##       #########    ##    ##       ##   ##         ##
+##    ##  ##          ##    ##        ##       ##     ##    ##    ##       ##    ##  ##    ##
+ ######   ########    ##    ##        ######## ##     ##    ##    ######## ##     ##  ######
+*/
 
 //adds player name and color to arrays
 //once all players added the inputs are hidden and new buttons show up
@@ -95,9 +130,6 @@ function getPlayers() {
 
     getGoodBoard();
 
-    // Get an adequate board
-    //buildInitalSetup();
-
     document.querySelector('.good-board').style.display = 'inline';
     document.querySelector('.bad-board').style.display = 'inline';
 
@@ -105,16 +137,14 @@ function getPlayers() {
 }
 
 /*
-if (playersInit == 4) {
-  // Setup new game
-  var game = new Game(players);
-
-  // Get an adequate board
-  buildInitalSetup();
-}
+ ######   ######## ########  ######    #######   #######  ########  ########   #######     ###    ########  ########
+##    ##  ##          ##    ##    ##  ##     ## ##     ## ##     ## ##     ## ##     ##   ## ##   ##     ## ##     ##
+##        ##          ##    ##        ##     ## ##     ## ##     ## ##     ## ##     ##  ##   ##  ##     ## ##     ##
+##   #### ######      ##    ##   #### ##     ## ##     ## ##     ## ########  ##     ## ##     ## ########  ##     ##
+##    ##  ##          ##    ##    ##  ##     ## ##     ## ##     ## ##     ## ##     ## ######### ##   ##   ##     ##
+##    ##  ##          ##    ##    ##  ##     ## ##     ## ##     ## ##     ## ##     ## ##     ## ##    ##  ##     ##
+ ######   ########    ##     ######    #######   #######  ########  ########   #######  ##     ## ##     ## ########
 */
-
-var goodBoard, rendered = false, makingBoard = false;
 
 // Make a couple functions in order to get around things being too fast
 function getGoodBoard () {
@@ -129,33 +159,15 @@ function getGoodBoard () {
     setTimeout(confirmBoard, 100); */
 }
 
-//load at start, makes buttons work properly
-window.onload = function() {
-    //set focus
-    document.querySelector('.player-name-0').focus()
-
-    //Accept button for player creation
-    document.querySelector('.btn-accept-player').addEventListener('click', getPlayers);
-
-    //Accept Board button selected
-    document.querySelector('.good-board').addEventListener('click', function() {
-      //hide accept board and new board buttons
-      document.querySelector('.good-board').style.display = 'none';
-      document.querySelector('.bad-board').style.display = 'none';
-
-      document.querySelector('.dice1').style.display = 'block';
-      document.querySelector('.dice2').style.display = 'block';
-      document.querySelector('.btn-roll').style.display = 'inline';
-
-      //buildInitalSetup();
-    });
-    document.querySelector('.bad-board').addEventListener('click', getGoodBoard);
-}
-
-//****************************************
-// Get a good board
-//getGoodBoard();
-//****************************************
+/*
+########  ##     ## #### ##       ########  #### ##    ## #### ########    ###    ##        ######  ######## ######## ##     ## ########
+##     ## ##     ##  ##  ##       ##     ##  ##  ###   ##  ##     ##      ## ##   ##       ##    ## ##          ##    ##     ## ##     ##
+##     ## ##     ##  ##  ##       ##     ##  ##  ####  ##  ##     ##     ##   ##  ##       ##       ##          ##    ##     ## ##     ##
+########  ##     ##  ##  ##       ##     ##  ##  ## ## ##  ##     ##    ##     ## ##        ######  ######      ##    ##     ## ########
+##     ## ##     ##  ##  ##       ##     ##  ##  ##  ####  ##     ##    ######### ##             ## ##          ##    ##     ## ##
+##     ## ##     ##  ##  ##       ##     ##  ##  ##   ###  ##     ##    ##     ## ##       ##    ## ##          ##    ##     ## ##
+########   #######  #### ######## ########  #### ##    ## ####    ##    ##     ## ########  ######  ########    ##     #######  ##
+*/
 
 function buildInitalSetup() {
 
@@ -171,10 +183,21 @@ function buildInitalSetup() {
     game.board.render(game.players);
     setTimeout(main, 100);
 
-    //main();
+    main();
 }
 
+/*
+##     ##    ###    #### ##    ##
+###   ###   ## ##    ##  ###   ##
+#### ####  ##   ##   ##  ####  ##
+## ### ## ##     ##  ##  ## ## ##
+##     ## #########  ##  ##  ####
+##     ## ##     ##  ##  ##   ###
+##     ## ##     ## #### ##    ##
+*/
+
 function main() {
+  console.log('hello');
     // Run a game.nextTurn() cycle until the game is over
     while (!game.over) {
         game.nextTurn();
