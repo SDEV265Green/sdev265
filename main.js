@@ -54,8 +54,13 @@ window.onload = function() {
       document.querySelector('.dice2').style.display = 'block';
       document.querySelector('.btn-roll').style.display = 'inline';
 
+      document.querySelector('.wrapper-current-player').style.display = 'block';
+      document.querySelector('.player-current').textContent = game.players[game.turn].name;
+      document.querySelector('.player-current').style.color = game.players[game.turn].color;
+      document.querySelector('.player-current').style.fontWeight = '900';
+
       //set up player locations
-      //buildInitalSetup();
+      buildInitalSetup();
     });
     document.querySelector('.bad-board').addEventListener('click', getGoodBoard);
 }
@@ -178,9 +183,6 @@ function getGoodBoard () {
     // Render the new board
     game.board.render(game.players);
 
-/*
-    // Ask if board is okay after a slight delay
-    setTimeout(confirmBoard, 100); */
 }
 
 /*
@@ -216,7 +218,7 @@ function buildInitalSetup() {
         game.buildItem(2, true);
         game.incTurn();
     }
-    for (i = 1; i <= numPlayers; i++) {
+    for (i = 4; i >= 1; i--) {
         game.buildItem(2, true);
         game.incTurn();
     }
@@ -237,7 +239,6 @@ function buildInitalSetup() {
 */
 
 function main() {
-  console.log('hello');
     // Run a game.nextTurn() cycle until the game is over
     while (!game.over) {
         game.nextTurn();

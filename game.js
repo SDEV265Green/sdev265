@@ -90,6 +90,11 @@ class Game {
         // Produce resources
         //this.produceResources();
 
+        //set current player to correct player
+        document.querySelector('.player-current').textContent = game.players[game.turn].name;
+        document.querySelector('.player-current').style.color = game.players[game.turn].color;
+        document.querySelector('.player-current').style.fontWeight = '900';
+
         // Tell the player what they have
         alert(this.players[game.turn].name + ", here is your hand:\n" +
                "\t Lumber: " + this.players[this.turn].resources.lumber + "\n" +

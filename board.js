@@ -9,6 +9,11 @@ var tileWidth = 124,
 //FOR NOW: this will be a three-dimensional array that holds the data of the coordinates for each tile
 //(ArrayOfTileVerticesCoordinates[INDEX OF TILE] [INDEX OF VERTEX] [INDEX OF COORDINATE (x=0,y=1)]]
 var ArrayOfTileVerticesCoordinates = [];
+//simpler version of ArrayOfTileVerticesCoordinates
+//this one is a 2 dimensional array with (x,y, true/false) values for each corner
+//true/false is for if there is a settlement there or not
+var corners = [];
+var cornersFilled = false;
 
 // Class for whole board of tiles
 class Board {
@@ -228,6 +233,12 @@ class Board {
         context.stroke();
     }
 
+    //clickable circles
+    drawClickCircle(context, centerX, centerY, radius) {
+      context.beginPath();
+      context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+    }
+
 
 /*
 ########  ########     ###    ##      ##
@@ -429,6 +440,104 @@ class Board {
         // Draw each tile and add it's array of vertices to the big array
         for (var i = 0; i < this.tiles.length; i++) {
             ArrayOfTileVerticesCoordinates.push(this.drawTile(this.tiles[i]));
+        }
+
+
+        //add each vertex to the corners array
+        if (!cornersFilled) {
+          for (i=0; i<=53; i++) {
+            if (i < 3) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i][0][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i][0][1]), false]);
+            }
+            else if (i >= 3 && i < 6) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-3][5][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i-3][5][1]), false]);
+            }
+            else if (i == 6) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[2][1][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[2][1][1]), false]);
+            }
+            else if (i >= 7 && i < 10) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-7][4][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i-7][4][1]), false]);
+            }
+            else if (i == 10) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[2][2][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[2][2][1]), false]);
+            }
+            else if (i >= 11 && i < 15) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-8][5][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i-8][5][1]), false]);
+            }
+            else if (i == 15) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[6][1][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[6][1][1]), false]);
+            }
+            else if (i >= 16 && i < 20) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-13][4][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i-13][4][0]), false]);
+            }
+            else if (i == 20) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[6][2][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[6][2][1]), false]);
+            }
+            else if (i >= 21 && i < 26) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-14][5][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i-14][5][1]), false]);
+            }
+            else if (i == 26) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[11][1][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[11][1][1]), false]);
+            }
+            else if (i >= 27 && i < 32) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-20][4][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i-20][4][1]), false]);
+            }
+            else if (i == 32) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[11][2][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[11][2][1]), false]);
+            }
+            else if (i >= 33 && i < 37) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-21][5][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i-21][5][1]), false]);
+            }
+            else if (i == 37) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[15][1][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[15][1][1]), false]);
+            }
+            else if (i >= 38 && i < 42) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-26][4][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i-26][4][1]), false]);
+            }
+            else if (i == 42) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[15][2][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[15][2][1]), false]);
+            }
+            else if (i >= 43 && i < 46) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-27][5][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i-27][5][1]), false]);
+            }
+            else if (i == 46) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[18][1][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[18][1][1]), false]);
+            }
+            else if (i >= 47 && i < 50) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-31][4][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i-31][4][1]), false]);
+            }
+            else if (i == 50) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[18][2][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[18][2][1]), false]);
+            }
+            else if (i >= 51 && i <= 53) {
+              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-35][3][0]),
+                Math.round(ArrayOfTileVerticesCoordinates[i-35][3][1]), false]);
+              if (i == 53) {
+                cornersFilled = true;
+              }
+            }
+          }
         }
 
         // Draw the robber
