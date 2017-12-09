@@ -1,7 +1,3 @@
-/**
- * Created by Isaac on 10/16/15.
- */
-
 "use strict";
 
 //import Player from "player.js";

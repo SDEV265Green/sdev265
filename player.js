@@ -2,7 +2,7 @@
 
 class Player {
     constructor(name, color) {
-        this.name = name;
+        this.name = name.toUpperCase();
         this.color = color;
         this.points = 0;
         this.longestRoad = false;

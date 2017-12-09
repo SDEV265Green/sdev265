@@ -82,13 +82,13 @@
 
  .good-board {
    height: auto;
-   width: 170;
+   width: 170px;
    display: none;
  }
 
  .bad-board {
    height: auto;
-   width: auto;
+   width: 142px;
    display: none;
  }
 
@@ -209,7 +209,7 @@ button {
     transition: background-color 0.3s, color 0.3s;
 }
 
-button:hover { font-weight: 600; }
+button:hover { font-weight: bold; }
 
 button:focus {
     outline: none;

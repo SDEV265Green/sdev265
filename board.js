@@ -10,10 +10,26 @@ var tileWidth = 124,
 //(ArrayOfTileVerticesCoordinates[INDEX OF TILE] [INDEX OF VERTEX] [INDEX OF COORDINATE (x=0,y=1)]]
 var ArrayOfTileVerticesCoordinates = [];
 //simpler version of ArrayOfTileVerticesCoordinates
-//this one is a 2 dimensional array with (x,y, true/false) values for each corner
-//true/false is for if there is a settlement there or not
+//this one is a 2 dimensional array with (x,y) values for each corner
 var corners = [];
 var cornersFilled = false;
+//array for each clickable object
+// [[x1, x2, y1, y2, true/false]]
+//x1, x2 is the x range for the square; y1, y2 is the y range
+//true/false is for if there is a settlement there or not
+var rects = [];
+
+var elem = document.getElementById('canvas');
+//event listener for clicks on corners
+elem.addEventListener('click', function(event) {
+  var x = event.pageX,
+      y = event.pageY;
+  for (var square=0; square<54; square++) {
+    if ((x>=rects[square][0] && x<=rects[square][1]) && (y>=rects[square][2] && y<=rects[square][3])) {
+      alert('clicked: ' + square);
+    }
+  }
+})
 
 // Class for whole board of tiles
 class Board {
@@ -233,12 +249,6 @@ class Board {
         context.stroke();
     }
 
-    //clickable circles
-    drawClickCircle(context, centerX, centerY, radius) {
-      context.beginPath();
-      context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    }
-
 
 /*
 ########  ########     ###    ##      ##
@@ -282,6 +292,32 @@ class Board {
         this.drawCircle(this.ctx, robberX, robberY, 30);
     }
 
+    /*
+    ########  ########     ###    ##      ##
+    ##     ## ##     ##   ## ##   ##  ##  ##
+    ##     ## ##     ##  ##   ##  ##  ##  ##
+    ##     ## ########  ##     ## ##  ##  ##
+    ##     ## ##   ##   ######### ##  ##  ##
+    ##     ## ##    ##  ##     ## ##  ##  ##
+    ########  ##     ## ##     ##  ###  ###
+
+     ######  ##       ####  ######  ##    ##    ###    ########  ##       ########  ######
+    ##    ## ##        ##  ##    ## ##   ##    ## ##   ##     ## ##       ##       ##    ##
+    ##       ##        ##  ##       ##  ##    ##   ##  ##     ## ##       ##       ##
+    ##       ##        ##  ##       #####    ##     ## ########  ##       ######    ######
+    ##       ##        ##  ##       ##  ##   ######### ##     ## ##       ##             ##
+    ##    ## ##        ##  ##    ## ##   ##  ##     ## ##     ## ##       ##       ##    ##
+     ######  ######## ####  ######  ##    ## ##     ## ########  ######## ########  ######
+    */
+
+    drawClickCorners() {
+      for (var vertex=0; vertex<54; vertex++) {
+        // Set color
+        this.ctx.fillStyle = "black";
+        // Draw the square
+        this.ctx.fillRect(corners[vertex][0], corners[vertex][1], 25, 25);
+      }
+    }
 
 /*
 ########  ########     ###    ##      ##
@@ -442,103 +478,7 @@ class Board {
             ArrayOfTileVerticesCoordinates.push(this.drawTile(this.tiles[i]));
         }
 
-
-        //add each vertex to the corners array
-        if (!cornersFilled) {
-          for (i=0; i<=53; i++) {
-            if (i < 3) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i][0][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i][0][1]), false]);
-            }
-            else if (i >= 3 && i < 6) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-3][5][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i-3][5][1]), false]);
-            }
-            else if (i == 6) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[2][1][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[2][1][1]), false]);
-            }
-            else if (i >= 7 && i < 10) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-7][4][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i-7][4][1]), false]);
-            }
-            else if (i == 10) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[2][2][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[2][2][1]), false]);
-            }
-            else if (i >= 11 && i < 15) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-8][5][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i-8][5][1]), false]);
-            }
-            else if (i == 15) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[6][1][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[6][1][1]), false]);
-            }
-            else if (i >= 16 && i < 20) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-13][4][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i-13][4][0]), false]);
-            }
-            else if (i == 20) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[6][2][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[6][2][1]), false]);
-            }
-            else if (i >= 21 && i < 26) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-14][5][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i-14][5][1]), false]);
-            }
-            else if (i == 26) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[11][1][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[11][1][1]), false]);
-            }
-            else if (i >= 27 && i < 32) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-20][4][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i-20][4][1]), false]);
-            }
-            else if (i == 32) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[11][2][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[11][2][1]), false]);
-            }
-            else if (i >= 33 && i < 37) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-21][5][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i-21][5][1]), false]);
-            }
-            else if (i == 37) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[15][1][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[15][1][1]), false]);
-            }
-            else if (i >= 38 && i < 42) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-26][4][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i-26][4][1]), false]);
-            }
-            else if (i == 42) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[15][2][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[15][2][1]), false]);
-            }
-            else if (i >= 43 && i < 46) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-27][5][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i-27][5][1]), false]);
-            }
-            else if (i == 46) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[18][1][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[18][1][1]), false]);
-            }
-            else if (i >= 47 && i < 50) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-31][4][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i-31][4][1]), false]);
-            }
-            else if (i == 50) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[18][2][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[18][2][1]), false]);
-            }
-            else if (i >= 51 && i <= 53) {
-              corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-35][3][0]),
-                Math.round(ArrayOfTileVerticesCoordinates[i-35][3][1]), false]);
-              if (i == 53) {
-                cornersFilled = true;
-              }
-            }
-          }
-        }
+        fillCorners();
 
         // Draw the robber
         this.drawRobber();
@@ -565,10 +505,140 @@ class Board {
             }
         }
 
+        this.drawClickCorners();
+
 
         // TODO: Draw all of the players roads
 
     }
+}
+
+/*
+######## #### ##       ##
+##        ##  ##       ##
+##        ##  ##       ##
+######    ##  ##       ##
+##        ##  ##       ##
+##        ##  ##       ##
+##       #### ######## ########
+
+ ######   #######  ########  ##    ## ######## ########   ######
+##    ## ##     ## ##     ## ###   ## ##       ##     ## ##    ##
+##       ##     ## ##     ## ####  ## ##       ##     ## ##
+##       ##     ## ########  ## ## ## ######   ########   ######
+##       ##     ## ##   ##   ##  #### ##       ##   ##         ##
+##    ## ##     ## ##    ##  ##   ### ##       ##    ##  ##    ##
+ ######   #######  ##     ## ##    ## ######## ##     ##  ######
+
+   ###    ########  ########     ###    ##    ##
+  ## ##   ##     ## ##     ##   ## ##    ##  ##
+ ##   ##  ##     ## ##     ##  ##   ##    ####
+##     ## ########  ########  ##     ##    ##
+######### ##   ##   ##   ##   #########    ##
+##     ## ##    ##  ##    ##  ##     ##    ##
+##     ## ##     ## ##     ## ##     ##    ##
+*/
+
+function fillCorners() {
+  //add each vertex to the corners array
+  if (!cornersFilled) {
+    for (var i = 0; i <= 53; i++) {
+      if (i < 3) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i][0][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i][0][1])-12]);
+      }
+      else if (i >= 3 && i < 6) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-3][5][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i-3][5][1])-12]);
+      }
+      else if (i == 6) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[2][1][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[2][1][1])-12]);
+      }
+      else if (i >= 7 && i < 10) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-7][4][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i-7][4][1])-12]);
+      }
+      else if (i == 10) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[2][2][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[2][2][1])-12]);
+      }
+      else if (i >= 11 && i < 15) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-8][5][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i-8][5][1])-12]);
+      }
+      else if (i == 15) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[6][1][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[6][1][1])-12]);
+      }
+      else if (i >= 16 && i < 20) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-13][4][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i-13][4][1])-12]);
+      }
+      else if (i == 20) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[6][2][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[6][2][1])-12]);
+      }
+      else if (i >= 21 && i < 26) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-14][5][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i-14][5][1])-12]);
+      }
+      else if (i == 26) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[11][1][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[11][1][1])-12]);
+      }
+      else if (i >= 27 && i < 32) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-20][4][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i-20][4][1])-12]);
+      }
+      else if (i == 32) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[11][2][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[11][2][1])-12]);
+      }
+      else if (i >= 33 && i < 37) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-21][5][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i-21][5][1])-12]);
+      }
+      else if (i == 37) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[15][1][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[15][1][1])-12]);
+      }
+      else if (i >= 38 && i < 42) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-26][4][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i-26][4][1])-12]);
+      }
+      else if (i == 42) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[15][2][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[15][2][1])-12]);
+      }
+      else if (i >= 43 && i < 46) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-27][5][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i-27][5][1])-12]);
+      }
+      else if (i == 46) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[18][1][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[18][1][1])-12]);
+      }
+      else if (i >= 47 && i < 50) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-31][4][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i-31][4][1])-12]);
+      }
+      else if (i == 50) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[18][2][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[18][2][1])-12]);
+      }
+      else if (i >= 51 && i <= 53) {
+        corners.push([Math.round(ArrayOfTileVerticesCoordinates[i-35][3][0])-12,
+          Math.round(ArrayOfTileVerticesCoordinates[i-35][3][1])-12]);
+        if (i == 53) {
+          cornersFilled = true;
+          for (i=0; i<54; i++) {
+            rects.push([corners[i][0]+8, corners[i][0]+32, corners[i][1]+8, corners[i][1]+32, false])
+          }
+        }
+      }
+    }
+  }
 }
 
 
