@@ -95,13 +95,39 @@ class Game {
         document.querySelector('.player-current').style.color = game.players[game.turn].color;
         document.querySelector('.player-current').style.fontWeight = '900';
 
-        // Tell the player what they have
+        //update player resources
+        //player 0
+        document.querySelector('.player-0-lumber').textContent = "Lumber: " + game.players[0].resources.lumber;
+        document.querySelector('.player-0-brick').textContent = "Brick: " + game.players[0].resources.brick;
+        document.querySelector('.player-0-grain').textContent = "Grain: " + game.players[0].resources.grain;
+        document.querySelector('.player-0-wool').textContent = "Wool: " + game.players[0].resources.wool;
+        document.querySelector('.player-0-ore').textContent = "Ore: " + game.players[0].resources.ore;
+        //player 1
+        document.querySelector('.player-1-lumber').textContent = "Lumber: " + game.players[1].resources.lumber;
+        document.querySelector('.player-1-brick').textContent = "Brick: " + game.players[1].resources.brick;
+        document.querySelector('.player-1-grain').textContent = "Grain: " + game.players[1].resources.grain;
+        document.querySelector('.player-1-wool').textContent = "Wool: " + game.players[1].resources.wool;
+        document.querySelector('.player-1-ore').textContent = "Ore: " + game.players[1].resources.ore;
+        //player 2
+        document.querySelector('.player-2-lumber').textContent = "Lumber: " + game.players[2].resources.lumber;
+        document.querySelector('.player-2-brick').textContent = "Brick: " + game.players[2].resources.brick;
+        document.querySelector('.player-2-grain').textContent = "Grain: " + game.players[2].resources.grain;
+        document.querySelector('.player-2-wool').textContent = "Wool: " + game.players[2].resources.wool;
+        document.querySelector('.player-2-ore').textContent = "Ore: " + game.players[2].resources.ore;
+        //player 0
+        document.querySelector('.player-3-lumber').textContent = "Lumber: " + game.players[3].resources.lumber;
+        document.querySelector('.player-3-brick').textContent = "Brick: " + game.players[3].resources.brick;
+        document.querySelector('.player-3-grain').textContent = "Grain: " + game.players[3].resources.grain;
+        document.querySelector('.player-3-wool').textContent = "Wool: " + game.players[3].resources.wool;
+        document.querySelector('.player-3-ore').textContent = "Ore: " + game.players[3].resources.ore;
+        /*
         alert(this.players[game.turn].name + ", here is your hand:\n" +
                "\t Lumber: " + this.players[this.turn].resources.lumber + "\n" +
                "\t Brick: " + this.players[this.turn].resources.brick + "\n" +
                "\t Grain: " + this.players[this.turn].resources.grain + "\n" +
                "\t Wool: " + this.players[this.turn].resources.wool + "\n" +
                "\t Ore: " + this.players[this.turn].resources.ore + "\n");
+               */
 
         // Trade
         this.trade();

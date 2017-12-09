@@ -55,6 +55,16 @@ window.onload = function() {
       document.querySelector('.player-current').style.color = game.players[game.turn].color;
       document.querySelector('.player-current').style.fontWeight = '900';
 
+      document.querySelector('.wrapper-player-resources').style.display = 'block';
+      document.querySelector('.player-resources-title-0').textContent = game.players[0].name;
+      document.querySelector('.player-resources-title-1').textContent = game.players[1].name;
+      document.querySelector('.player-resources-title-2').textContent = game.players[2].name;
+      document.querySelector('.player-resources-title-3').textContent = game.players[3].name;
+      document.querySelector('.player-resources-0').style.display = 'inline-block';
+      document.querySelector('.player-resources-1').style.display = 'inline-block';
+      document.querySelector('.player-resources-2').style.display = 'inline-block';
+      document.querySelector('.player-resources-3').style.display = 'inline-block';
+
       //set up player locations
       buildInitalSetup();
     });

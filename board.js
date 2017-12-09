@@ -38,7 +38,7 @@ class Board {
         // Get canvas info
         this.canvas = document.getElementById('canvas');
         this.canvas.width = 1500;
-        this.canvas.height = 750;
+        this.canvas.height = 700;
         this.ctx = this.canvas.getContext("2d");
 
         // Setup array for all tiles
@@ -313,7 +313,7 @@ class Board {
     drawClickCorners() {
       for (var vertex=0; vertex<54; vertex++) {
         // Set color
-        this.ctx.fillStyle = "black";
+        this.ctx.fillStyle = "transparent";
         // Draw the square
         this.ctx.fillRect(corners[vertex][0], corners[vertex][1], 25, 25);
       }
@@ -495,6 +495,8 @@ class Board {
             playerY += 100;
         }
 
+        this.drawClickCorners();
+
         // Draw all of the players settlements and cities
         for (i = 0; i < players.length; i++) {
             for (var j = 0; j < players[i].settlements.length; j++) {
@@ -504,8 +506,6 @@ class Board {
                 this.drawCity(players[i].cities[j], this.players[i].color);
             }
         }
-
-        this.drawClickCorners();
 
 
         // TODO: Draw all of the players roads
