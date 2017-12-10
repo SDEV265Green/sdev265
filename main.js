@@ -40,6 +40,11 @@ window.onload = function() {
     //Accept button for player creation
     document.querySelector('.btn-accept-player').addEventListener('click', getPlayers);
 
+    //Catan Rules button
+    document.querySelector('.rules').addEventListener('click', function() {
+      window.open('http://www.catan.com/en/download/?SoC_rv_Rules_091907.pdf');
+    });
+
     //Accept Board button selected
     document.querySelector('.good-board').addEventListener('click', function() {
       //hide accept board and new board buttons
@@ -149,6 +154,7 @@ function getPlayers() {
 
     getGoodBoard();
 
+    document.querySelector('.rules').style.display = 'inline';
     document.querySelector('.good-board').style.display = 'inline';
     document.querySelector('.bad-board').style.display = 'inline';
 
