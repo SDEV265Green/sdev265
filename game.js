@@ -513,6 +513,18 @@ class Game {
                 // Sites have to be atleast two spots away from a previous city or settlement
                 var buildSite;
 
+                for (var i=1; i<4; i++) {
+                    document.querySelector('.player-current').textContent = game.players[i-1].name;
+                    document.querySelector('.player-current').style.color = game.players[i-1].color;
+                    this.players[i-1].settlements.push(buildSite);
+                  }
+                for (i=4; i>0; i--) {
+                  document.querySelector('.player-current').textContent = game.players[i-1].name;
+                  document.querySelector('.player-current').style.color = game.players[i-1].color;
+                  this.players[i-1].settlements.push(buildSite);
+                }
+                
+                /*
                 do {
                     buildSite = parseInt(prompt(this.players[this.turn].name + ", enter the build site index for your settlement: "));
                 } while(buildSite < 0 || buildSite > 53 || this.board.usedBuildSites.indexOf(buildSite) != -1);
@@ -526,7 +538,7 @@ class Game {
                 this.board.render(this.players);
 
                 // Add victory points
-                this.players[this.turn].points += 1;
+                this.players[this.turn].points += 1; */
                 break;
             case 3:
                 // Check if player has resources for city

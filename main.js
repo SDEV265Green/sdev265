@@ -21,7 +21,7 @@ var playerColors = [];
 
 var game;
 var playersInit = 0;
-
+var initial = true;
 /*
  #######  ##    ## ##        #######     ###    ########
 ##     ## ###   ## ##       ##     ##   ## ##   ##     ##
@@ -220,16 +220,19 @@ function getGoodBoard () {
 function buildInitalSetup() {
 
     // Have players build their first two settlements and roads
+    /*
     for (var i = 1; i <= numPlayers; i++) {
         game.buildItem(2, true);
         game.incTurn();
     }
-    for (i = 4; i >= 1; i--) {
+    for (var i = 1; i <= numPlayers; i++) {
         game.buildItem(2, true);
         game.incTurn();
     }
     game.board.render(game.players);
     setTimeout(main, 100);
+    */
+    game.buildItem(2, initial);
 
     main();
 }

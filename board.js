@@ -14,9 +14,10 @@ var ArrayOfTileVerticesCoordinates = [];
 var corners = [];
 var cornersFilled = false;
 //array for each clickable object
-// [[x1, x2, y1, y2, true/false]]
+// [[x1, x2, y1, y2, 'TYPE', true/false]]
 //x1, x2 is the x range for the square; y1, y2 is the y range
-//true/false is for if there is a settlement there or not
+//'TYPE' can be 'none', 'settlement', 'city'
+//true/false is if the corner is buildable or not
 var rects = [];
 
 var elem = document.getElementById('canvas');
@@ -26,7 +27,12 @@ elem.addEventListener('click', function(event) {
       y = event.pageY;
   for (var square=0; square<54; square++) {
     if ((x>=rects[square][0] && x<=rects[square][1]) && (y>=rects[square][2] && y<=rects[square][3])) {
-      alert('clicked: ' + square);
+      if (rects[square][4]=='none') {
+        validBuild(square, 'settlement', initial);
+      }
+      else if (rects[square][4]=='settlement') {
+        validBuild(square, 'city', initial);
+      }
     }
   }
 })
@@ -633,7 +639,7 @@ function fillCorners() {
         if (i == 53) {
           cornersFilled = true;
           for (i=0; i<54; i++) {
-            rects.push([corners[i][0]+8, corners[i][0]+32, corners[i][1]+8, corners[i][1]+32, false])
+            rects.push([corners[i][0]+8, corners[i][0]+32, corners[i][1]+8, corners[i][1]+32, 'none', true])
           }
         }
       }
@@ -641,6 +647,324 @@ function fillCorners() {
   }
 }
 
+/*
+##     ##    ###    ##       #### ########
+##     ##   ## ##   ##        ##  ##     ##
+##     ##  ##   ##  ##        ##  ##     ##
+##     ## ##     ## ##        ##  ##     ##
+ ##   ##  ######### ##        ##  ##     ##
+  ## ##   ##     ## ##        ##  ##     ##
+   ###    ##     ## ######## #### ########
+
+########  ##     ## #### ##       ########
+##     ## ##     ##  ##  ##       ##     ##
+##     ## ##     ##  ##  ##       ##     ##
+########  ##     ##  ##  ##       ##     ##
+##     ## ##     ##  ##  ##       ##     ##
+##     ## ##     ##  ##  ##       ##     ##
+########   #######  #### ######## ########
+*/
+
+//id=corner index
+//type='none'/'settlement'/'city'
+//initial=true/false for if it is the first turn or not
+function validBuild(id, type, initial) {
+    var settlementResources = true;
+    var cityResources = true;
+    //check if player has resources for a settlement
+    if (!initial && (game.players[this.turn].resources.lumber<1 || game.players[this.turn].resources.brick<1
+          || game.players[this.turn].resources.grain<1 || game.players[this.turn].resources.wool<1)) {
+    settlementResources = false;
+    }
+    //check if player has resources for a city
+    if (!initial && (game.players[this.turn].resources.grain<2 || game.players[this.turn].resources.ore<3)) {
+      cityResources = false;
+    }
+
+    if (!rects[id][5]) {
+      alert('That location cannot be built on');
+    }
+    else if (type=='settlement' && !settlementResources) {
+      alert('You do not have enough resources to build a settlement');
+    }
+    else if (type=='city' && !cityResources) {
+      alert('You do not have enough resources to build a city');
+    }
+    else if (rects[id][4]=='settlement' && type=='settlement') {
+      alert('You cannot build a settlement on top of an existing settlement');
+    }
+    else if (rects[id][4]=='none' && type=='city') {
+      alert('There must be a settlement to upgrade to a city');
+    }
+    else if (rects[id][4]=='settlement' && type=='city') {
+      game.board.drawCity(id, game.players[game.turn].color);
+      rects[id][4] = 'city';
+      rects[id][5] = false;
+    }
+    else { //settlement being built
+      game.board.drawSettlement(id, game.players[game.turn].color);
+      rects[id][4]='settlement';
+      if (!initial) {
+        game.players[game.turn].resources.lumber -= 1;
+        game.players[game.turn].resources.brick -= 1;
+        game.players[game.turn].resources.grain -=1;
+        game.players[game.turn].resources.wool -=1;
+      }
+      //change buildable status for vertices surrounding build location
+      if (id==0) {
+        rects[3][5]=false;
+        rects[4][5]=false;
+      }
+      else if (id==1) {
+        rects[4][5]=false;
+        rects[5][5]=false;
+      }
+      else if (id==2) {
+        rects[5][5]=false;
+        rects[6][5]=false;
+      }
+      else if (id==3) {
+        rects[0][5]=false;
+        rects[7][5]=false;
+      }
+      else if (id==4) {
+        rects[0][5]=false;
+        rects[1][5]=false;
+        rects[8][5]=false;
+      }
+      else if (id==5) {
+        rects[1][5]=false;
+        rects[2][5]=false;
+        rects[9][5]=false;
+      }
+      else if (id==6) {
+        rects[2][5]=false;
+        rects[10][5]=false;
+      }
+      else if (id==7) {
+        rects[3][5]=false;
+        rects[11][5]=false;
+        rects[12][5]=false;
+      }
+      else if (id==8) {
+        rects[4][5]=false;
+        rects[12][5]=false;
+        rects[13][5]=false;
+      }
+      else if (id==9) {
+        rects[5][5]=false;
+        rects[13][5]=false;
+        rects[14][5]=false;
+      }
+      else if (id==10) {
+        rects[6][5]=false;
+        rects[14][5]=false;
+        rects[15][5]=false;
+      }
+      else if (id==11) {
+        rects[7][5]=false;
+        rects[16][5]=false;
+      }
+      else if (id==12) {
+        rects[7][5]=false;
+        rects[8][5]=false;
+        rects[17][5]=false;
+      }
+      else if (id==13) {
+        rects[8][5]=false;
+        rects[9][5]=false;
+        rects[18][5]=false;
+      }
+      else if (id==14) {
+        rects[9][5]=false;
+        rects[10][5]=false;
+        rects[19][5]=false;
+      }
+      else if (id==15) {
+        rects[10][5]=false;
+        rects[20][5]=false;
+      }
+      else if (id==16) {
+        rects[11][5]=false;
+        rects[21][5]=false;
+        rects[22][5]=false;
+      }
+      else if (id==17) {
+        rects[12][5]=false;
+        rects[22][5]=false;
+        rects[23][5]=false;
+      }
+      else if (id==18) {
+        rects[13][5]=false;
+        rects[23][5]=false;
+        rects[24][5]=false;
+      }
+      else if (id==19) {
+        rects[14][5]=false;
+        rects[24][5]=false;
+        rects[25][5]=false;
+      }
+      else if (id==20) {
+        rects[15][5]=false;
+        rects[25][5]=false;
+        rects[26][5]=false;
+      }
+      else if (id==21) {
+        rects[16][5]=false;
+        rects[27][5]=false;
+      }
+      else if (id==22) {
+        rects[16][5]=false;
+        rects[17][5]=false;
+        rects[28][5]=false;
+      }
+      else if (id==23) {
+        rects[17][5]=false;
+        rects[18][5]=false;
+        rects[29][5]=false;
+      }
+      else if (id==24) {
+        rects[18][5]=false;
+        rects[19][5]=false;
+        rects[30][5]=false;
+      }
+      else if (id==25) {
+        rects[19][5]=false;
+        rects[20][5]=false;
+        rects[31][5]=false;
+      }
+      else if (id==26) {
+        rects[20][5]=false;
+        rects[32][5]=false;
+      }
+      else if (id==27) {
+        rects[21][5]=false;
+        rects[33][5]=false;
+      }
+      else if (id==28) {
+        rects[22][5]=false;
+        rects[33][5]=false;
+        rects[34][5]=false;
+      }
+      else if (id==29) {
+        rects[23][5]=false;
+        rects[34][5]=false;
+        rects[35][5]=false;
+      }
+      else if (id==30) {
+        rects[24][5]=false;
+        rects[35][5]=false;
+        rects[36][5]=false;
+      }
+      else if (id==31) {
+        rects[25][5]=false;
+        rects[36][5]=false;
+        rects[37][5]=false;
+      }
+      else if (id==32) {
+        rects[26][5]=false;
+        rects[37][5]=false;
+      }
+      else if (id==33) {
+        rects[27][5]=false;
+        rects[28][5]=false;
+        rects[38][5]=false;
+      }
+      else if (id==34) {
+        rects[28][5]=false;
+        rects[29][5]=false;
+        rects[39][5]=false;
+      }
+      else if (id==35) {
+        rects[29][5]=false;
+        rects[30][5]=false;
+        rects[40][5]=false;
+      }
+      else if (id==36) {
+        rects[30][5]=false;
+        rects[31][5]=false;
+        rects[41][5]=false;
+      }
+      else if (id==37) {
+        rects[31][5]=false;
+        rects[32][5]=false;
+        rects[42][5]=false;
+      }
+      else if (id==38) {
+        rects[33][5]=false;
+        rects[43][5]=false;
+      }
+      else if (id==39) {
+        rects[34][5]=false;
+        rects[43][5]=false;
+        rects[44][5]=false;
+      }
+      else if (id==40) {
+        rects[35][5]=false;
+        rects[44][5]=false;
+        rects[45][5]=false;
+      }
+      else if (id==41) {
+        rects[36][5]=false;
+        rects[45][5]=false;
+        rects[46][5]=false;
+      }
+      else if (id==42) {
+        rects[37][5]=false;
+        rects[46][5]=false;
+      }
+      else if (id==43) {
+        rects[38][5]=false;
+        rects[39][5]=false;
+        rects[47][5]=false;
+      }
+      else if (id==44) {
+        rects[39][5]=false;
+        rects[40][5]=false;
+        rects[48][5]=false;
+      }
+      else if (id==45) {
+        rects[40][5]=false;
+        rects[41][5]=false;
+        rects[49][5]=false;
+      }
+      else if (id==46) {
+        rects[42][5]=false;
+        rects[50][5]=false;
+      }
+      else if (id==47) {
+        rects[43][5]=false;
+        rects[51][5]=false;
+      }
+      else if (id==48) {
+        rects[44][5]=false;
+        rects[51][5]=false;
+        rects[52][5]=false;
+      }
+      else if (id==49) {
+        rects[45][5]=false;
+        rects[52][5]=false;
+        rects[53][5]=false;
+      }
+      else if (id==50) {
+        rects[46][5]=false;
+        rects[53][5]=false;
+      }
+      else if (id==51) {
+        rects[47][5]=false;
+        rects[48][5]=false;
+      }
+      else if (id==52) {
+        rects[48][5]=false;
+        rects[49][5]=false;
+      }
+      else if (id==53) {
+        rects[49][5]=false;
+        rects[50][5]=false;
+      }
+
+    }
+}
 
 /*
  ######  ##     ## ##     ## ######## ######## ##       ########
