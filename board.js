@@ -672,12 +672,12 @@ function validBuild(id, type, initial) {
     var settlementResources = true;
     var cityResources = true;
     //check if player has resources for a settlement
-    if (!initial && (game.players[this.turn].resources.lumber<1 || game.players[this.turn].resources.brick<1
-          || game.players[this.turn].resources.grain<1 || game.players[this.turn].resources.wool<1)) {
+    if (!initial && (game.players[game.turn].resources.lumber<1 || game.players[game.turn].resources.brick<1
+          || game.players[game.turn].resources.grain<1 || game.players[game.turn].resources.wool<1)) {
     settlementResources = false;
     }
     //check if player has resources for a city
-    if (!initial && (game.players[this.turn].resources.grain<2 || game.players[this.turn].resources.ore<3)) {
+    if (game.players[game.turn].resources.grain<2 || game.players[game.turn].resources.ore<3) {
       cityResources = false;
     }
 
@@ -698,11 +698,15 @@ function validBuild(id, type, initial) {
     }
     else if (rects[id][4]=='settlement' && type=='city') {
       game.board.drawCity(id, game.players[game.turn].color);
+      game.players[game.turn].points += 1;
       rects[id][4] = 'city';
       rects[id][5] = false;
+      game.players[game.turn].resources.grain -=2;
+      game.players[game.turn].resources.ore-=3;
     }
     else { //settlement being built
       game.board.drawSettlement(id, game.players[game.turn].color);
+      game.players[game.turn].points += 1;
       rects[id][4]='settlement';
       if (!initial) {
         game.players[game.turn].resources.lumber -= 1;
